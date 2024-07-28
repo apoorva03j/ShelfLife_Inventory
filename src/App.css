@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+  font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+.page-content{
+  margin-left: 20%;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .page-content{
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,66 @@
+.product-table-st {
+  margin: 20px;
+  border-collapse: collapse;
+  width: 95%;
+}
+
+.table-header-cell {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-data-cell {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.alternate-row {
+  background-color: #f2f2f2;
+}
+
+.update-button {
+  background-color:black;
+  color: #fff;
+  border: black;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.remove-button {
+  background-color: black;
+  color: #fff;
+  border: black;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.update-button:hover, .remove-button:hover {
+  background-color: #00C9B5;
+}
+
+.header-table-st{
+  text-align: left;
+  padding-left: 25px;
+  color: black;
+}
+
+
+
+@media (max-width: 768px) {
+  .product-table {
+    font-size: 14px;
+  }
+  .table-data-cell {
+    padding: 5px;
+  }
+  .update-button, .remove-button {
+    padding: 3px 5px;
+    font-size: 14px;
+  }
+}

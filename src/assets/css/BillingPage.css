@@ -1,0 +1,122 @@
+.billing-page {
+  width: 80%;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.bill-no-date {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.bill-no-date label {
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+
+.add-product {
+  margin-bottom: 20px;
+}
+
+.add-product label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.add-product input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.product-table {
+  margin-top: 20px;
+}
+
+.product-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th, .product-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #f0f0f0;
+}
+
+.product-table input[type="text"], .product-table input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.billing-requirements {
+  margin-top: 20px;
+}
+
+.billing-requirements label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.actions button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.actions button:hover {
+  background-color: #3e8e41;
+}
+
+.actions .edit-button {
+  background-color: #008CBA;
+}
+
+.actions .edit-button:hover {
+  background-color: #0069D9;
+}
+
+.actions .save-button {
+  background-color: #4CAF50;
+}
+
+.actions .save-button:hover {
+  background-color: #3e8e41;
+}
+
+.actions .quit-button {
+  background-color: #f44336;
+}
+
+.actions .quit-button:hover {
+  background-color: #d32f2f;
+}
+
+.actions .print-button {
+  background-color: #2196F3;
+}
+
+.actions .print-button:hover {
+  background-color: #1976D2;
+}

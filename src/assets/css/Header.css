@@ -1,0 +1,93 @@
+
+.header-h {
+  background-color: #283D3A;
+  color: #fff;
+  padding: 1em;
+  display: flex;
+  margin-left: 20%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.img-logo{
+  width: 50px;
+  /* transform: translate(-20px, 20px); */
+}
+
+.navigation-h {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #00C9B5;
+}
+
+.nav-link:active {
+  color: #00948F;
+}
+
+.admin-profile {
+  display: flex;
+  align-items: center;
+}
+
+.admin-photo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.admin-name {
+  font-size: 1em;
+  font-weight: bold;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .header-h {
+    padding: 1rem;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .navigation-h {
+    flex-direction: column;
+  }
+
+  .nav-list{
+  }
+
+  .nav-item {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .admin-photo {
+    width: 25px;
+    height: 25px;
+  }
+
+  .admin-name {
+    font-size: 0.9em;
+  }
+}
