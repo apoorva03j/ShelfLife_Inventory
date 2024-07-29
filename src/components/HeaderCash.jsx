@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/css/Header.css';
 import { useNavigate } from 'react-router-dom';
-import Footer from './Footer';
 
 const Header = ({userType}) => {
   const [adminData, setAdminData] = useState({});
@@ -48,7 +47,7 @@ const Header = ({userType}) => {
       <nav className="navigation-h">
         <ul className="nav-list">
           <li className="nav-item">
-            <a href="/manager" className="nav-link">
+            <a href="/cash" className="nav-link">
               Home
             </a>
           </li>
@@ -62,21 +61,21 @@ const Header = ({userType}) => {
               Contact
             </a>
           </li>
-          {/* <li className="nav-item">
-            <a href="/add-employee" className="nav-link">
-              Add Employee
+          <li className="nav-item">
+            <a href="/grievance" className="nav-link">
+              Grievance
             </a>
           </li>
           <li className="nav-item">
-            <a href="/add-vendor" className="nav-link">
-              Add Vendor
+            <a href="/stock-view" className="nav-link">
+              Stock Details
             </a>
           </li>
           <li className="nav-item">
-            <a href="/vednor-details" className="nav-link">
-              Vendor Details
+            <a href="/billing" className="nav-link">
+              Generate-Bill
             </a>
-          </li> */}
+          </li>
         </ul>
       </nav>
 
@@ -88,7 +87,7 @@ const Header = ({userType}) => {
             />
             <span> {adminData.name} </span>
           </div>
-          
+
     </header>
   );
 };

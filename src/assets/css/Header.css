@@ -4,9 +4,17 @@
   color: #fff;
   padding: 1em;
   display: flex;
-  margin-left: 20%;
   justify-content: space-between;
+  width: 100%;
   align-items: center;
+  position: fixed;
+  top: 0;
+}
+
+
+
+.header-h.with-sidebar {
+
 }
 
 .img-logo{
@@ -47,6 +55,7 @@
 .admin-profile {
   display: flex;
   align-items: center;
+  transform: translate(-100px, 0);
 }
 
 .admin-photo {
@@ -61,6 +70,21 @@
   font-size: 1em;
   font-weight: bold;
   color: #fff;
+}
+
+.login-btn {
+  padding: 0.75rem 1rem;
+  border: none;
+  background-color: #283D3A;
+  color: white;
+  cursor: pointer;
+  font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+  border-radius: 3px;
+  font-size: medium;
+}
+
+.login-btn:hover{
+  background-color: #00C9B5;
 }
 
 @media (max-width: 768px) {

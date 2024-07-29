@@ -20,22 +20,22 @@ const Panel = ({ userType, isLoggedIn}) => {
 
   const decide = () => {
     // if (userType === 1) {
-      setMenuItems([
-        { label: 'Dashboard', link: '/' }, 
-        { label: 'Add Employee', link: '/add-employee'},
-        { label: 'Stock Details', link: '/stock' }, 
-        { label: 'Add Vendor', link: '/add-vendor' },
-        { label: 'Vendor Details', link: '/vendor-details' },
-        { label: 'Grievances', link: '/grievance' }
-      ]);
-    // }
-    // else if(userType === 2){
     //   setMenuItems([
-    //     { label: 'Dashboard', link: '/cashier' }, 
-    //     { label: 'Stock Details', link: '/stock-view' }, 
+    //     { label: 'Dashboard', link: '/' }, 
+    //     { label: 'Add Employee', link: '/add-employee'},
+    //     { label: 'Stock Details', link: '/stock' }, 
+    //     { label: 'Add Vendor', link: '/add-vendor' },
     //     { label: 'Vendor Details', link: '/vendor-details' },
     //     { label: 'Grievances', link: '/grievance' }
     //   ]);
+    // }
+    // else if(userType === 2){
+      setMenuItems([
+        { label: 'Dashboard', link: '/cashier' }, 
+        { label: 'Stock Details', link: '/stock-view' }, 
+        { label: 'Vendor Details', link: '/vendor-details' },
+        { label: 'Grievances', link: '/grievance' }
+      ]);
     // }
     // else if(userType === 3){
     //   setMenuItems([

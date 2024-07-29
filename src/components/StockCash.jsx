@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../assets/css/StockDetails.css';
 import Header from './Header';
 import Panel from './Panel';
-import Footer from './Footer1';
 
 const StockDetails = ({userType}) => {
   const [stockData, setStockData] = useState({
@@ -169,7 +168,6 @@ const StockDetails = ({userType}) => {
               <th className="table-header-cell">Category</th>
               <th className="table-header-cell">Stock Quantity</th>
               <th className="table-header-cell">Vendor ID</th>
-              <th className="table-header-cell">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -183,16 +181,11 @@ const StockDetails = ({userType}) => {
                 <td className="table-data-cell">{product.category}</td>
                 <td className="table-data-cell">{product.stockQuantity}</td>
                 <td className="table-data-cell">{product.vendorId}</td>
-                <td className="table-data-cell">
-                  <button className="update-button">Edit</button>
-                  <button className="remove-button">Delete</button>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </main>
-      <Footer/>
     </>
   );
 };

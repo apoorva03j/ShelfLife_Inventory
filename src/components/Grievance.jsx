@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../assets/css/Grievance.css';
+import Header from './Header';
+import Panel from './Panel';
 
-function Grievance() {
+function Grievance({userType}) {
   const [formData, setFormData] = useState({
     cashierName: '',
     grievanceSubject: '',
@@ -29,6 +31,9 @@ function Grievance() {
   };
 
   return (
+    <>
+    <Header/>
+    {/* <Panel userType={userType}/> */}
     <form onSubmit={handleSubmit} className="grievance-form">
         <h1>Grievance Form</h1>
       <input
@@ -65,6 +70,8 @@ function Grievance() {
 
       <button type="submit" className="submit-button-g">Submit Grievance</button>
     </form>
+
+    </>
   );
 }
 

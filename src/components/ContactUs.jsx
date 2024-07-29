@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import '../assets/css/ContactUs.css';
+import Header1 from './Header1';
+import Footer from './Footer';
 
 const ContactUs = () => {
   const [name, setName] = useState('');
@@ -28,6 +30,7 @@ const ContactUs = () => {
 
   return (
     <>
+    <Header1/>
       <div className="contact-us-container">
         <h1 style={{ marginBottom: 20 }}>Contact Us</h1>
         <form onSubmit={handleSubmit}>
@@ -47,6 +50,7 @@ const ContactUs = () => {
           <button type="submit" className="send-button-c">Send</button>
         </form>
       </div>
+      <Footer/>
     </>
   );
 };

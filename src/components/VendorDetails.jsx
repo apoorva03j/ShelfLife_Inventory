@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/css/VendorDetails.css';
+import Header from './Header';
+import Panel from './Panel';
+import Footer from './Footer';
 
-const VendorDetails = () => {
+const VendorDetails = ({userType}) => {
   const [vendors, setVendors] = useState([
     {
       id: 1,
@@ -150,6 +153,9 @@ const VendorDetails = () => {
   ]);
 
   return (
+    <>
+    <Header/>
+    {/* <Panel userType={userType}/> */}
     <div className="vendor-table">
       <header className='header-table1'>
         <h1>Vendor Details</h1>
@@ -185,6 +191,8 @@ const VendorDetails = () => {
         </tbody>
       </table>
     </div>
+    <Footer/>
+    </>
   );
 };
 

@@ -12,6 +12,8 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    /* margin-left: 20%; */
+    margin-top: -50px;
   }
   
   .employe-form {

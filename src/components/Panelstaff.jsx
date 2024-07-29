@@ -20,14 +20,14 @@ const Panel = ({ userType, isLoggedIn}) => {
 
   const decide = () => {
     // if (userType === 1) {
-      setMenuItems([
-        { label: 'Dashboard', link: '/' }, 
-        { label: 'Add Employee', link: '/add-employee'},
-        { label: 'Stock Details', link: '/stock' }, 
-        { label: 'Add Vendor', link: '/add-vendor' },
-        { label: 'Vendor Details', link: '/vendor-details' },
-        { label: 'Grievances', link: '/grievance' }
-      ]);
+    //   setMenuItems([
+    //     { label: 'Dashboard', link: '/' }, 
+    //     { label: 'Add Employee', link: '/add-employee'},
+    //     { label: 'Stock Details', link: '/stock' }, 
+    //     { label: 'Add Vendor', link: '/add-vendor' },
+    //     { label: 'Vendor Details', link: '/vendor-details' },
+    //     { label: 'Grievances', link: '/grievance' }
+    //   ]);
     // }
     // else if(userType === 2){
     //   setMenuItems([
@@ -38,19 +38,19 @@ const Panel = ({ userType, isLoggedIn}) => {
     //   ]);
     // }
     // else if(userType === 3){
-    //   setMenuItems([
-    //     { label: 'Dashboard', link: '/staff' }, 
-    //     { label: 'Stock Details', link: '/stock' }, 
-    //     { label: 'Add Vendor', link: '/add-vendor' },
-    //     { label: 'Vendor Details', link: '/vendor-details' },
-    //     { label: 'Grievances', link: '/grievance' }
-    //   ]);
+      setMenuItems([
+        { label: 'Dashboard', link: '/staff' }, 
+        { label: 'Stock Details', link: '/stock' }, 
+        { label: 'Add Vendor', link: '/add-vendor' },
+        { label: 'Vendor Details', link: '/vendor-details' },
+        { label: 'Grievances', link: '/grievance' }
+      ]);
     // }
   };
 
   useEffect(() => {
     decide();
-  }, [isLoggedIn]);
+  }, []);
 
   return (
     <div className={`side-panel ${isLoggedIn ? 'with-sidebar' : ''}`}>

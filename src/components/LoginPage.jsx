@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import '../assets/css/LoginPage.css';
+import { useNavigate } from 'react-router-dom';
+import Header1 from './Header1';
+import Footer from './Footer';
 
-const LoginPage = () => {
+const LoginPage = ({setUserType}) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,12 +20,37 @@ const LoginPage = () => {
     }));
   };
 
+  const validateData = () =>{
+    if(formData.username==='manager' && formData.password==='manager01'){
+      setUserType(1);
+      navigate('/manager');
+      // setIsLoggedIn(true);
+    }
+    else if(formData.username==='cashier' && formData.password==='cashier01'){
+      setUserType(2);
+      navigate('/cashier');
+      // setIsLoggedIn(true);
+    }
+    else if(formData.username==='staff' && formData.password==='staff01'){
+      setUserType(3);
+      navigate('/staff');
+      // setIsLoggedIn(true);
+    }
+    else{
+      alert('Invalid username or password');
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
+    validateData()
+
   };
 
   return (
+    <>
+    <Header1/>
     <div className="form-container-login">
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
@@ -52,6 +82,8 @@ const LoginPage = () => {
         </div>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 };
 

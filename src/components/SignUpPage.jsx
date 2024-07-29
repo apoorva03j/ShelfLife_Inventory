@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/css/SignUpPage.css';
+import Header1 from './Header1';
+import Footer from './Footer';
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +35,8 @@ const SignUpPage = () => {
   };
 
   return (
+    <>
+    <Header1/>
     <div className="form-container-s">
       <form className="sign-up-form" onSubmit={handleSubmit}>
         <h2>Sign Up for ShelfLife</h2>
@@ -164,6 +168,8 @@ const SignUpPage = () => {
         </div>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 };
 

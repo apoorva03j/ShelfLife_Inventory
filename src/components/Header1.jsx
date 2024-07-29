@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/css/Header.css';
 import { useNavigate } from 'react-router-dom';
-import Footer from './Footer';
 
-const Header = ({userType}) => {
-  const [adminData, setAdminData] = useState({});
+const Header1 = () => {
+//   const [adminData, setAdminData] = useState({});
 
   const navigate = useNavigate();
 
@@ -22,18 +21,9 @@ const Header = ({userType}) => {
 //     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
 //   }, [isLoggedIn]);
 
-  useEffect(() => {
-
-    if(userType===1){
-      setAdminData({ name: 'Admin' });
-    }
-    else if(userType===2){
-      setAdminData({ name: 'Cashier' });
-    }
-    else if(userType===3){
-      setAdminData({ name: 'Staff' });
-    }
-  }, []);
+//   useEffect(() => {
+//     setAdminData({ name: 'Admin' });
+//   }, []);
 
   const handleLogin = () =>{
     navigate('/login');
@@ -44,11 +34,11 @@ const Header = ({userType}) => {
   }
 
   return (
-    <header className='header-h with-sidebar'>
+    <header className='header-h'>
       <nav className="navigation-h">
         <ul className="nav-list">
           <li className="nav-item">
-            <a href="/manager" className="nav-link">
+            <a href="/" className="nav-link">
               Home
             </a>
           </li>
@@ -62,35 +52,16 @@ const Header = ({userType}) => {
               Contact
             </a>
           </li>
-          {/* <li className="nav-item">
-            <a href="/add-employee" className="nav-link">
-              Add Employee
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/add-vendor" className="nav-link">
-              Add Vendor
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/vednor-details" className="nav-link">
-              Vendor Details
-            </a>
-          </li> */}
         </ul>
       </nav>
 
           <div className="admin-profile">
-            <img
-              src={adminData.photo || 'admin-photo.jpg'}
-              alt="Admin Photo"
-              className="admin-photo"
-            />
-            <span> {adminData.name} </span>
+            <button className='login-btn' onClick={handleLogin}>Login</button>
+            <button className='login-btn' onClick={handleSignup}>Sign Up</button>
           </div>
-          
+
     </header>
   );
 };
 
-export default Header;
+export default Header1;

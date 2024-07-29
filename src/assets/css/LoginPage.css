@@ -1,4 +1,3 @@
-
   .form-container-login {
     display: flex;
     font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
@@ -8,6 +7,8 @@
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    margin-bottom: -170px;
+    margin-top: 90px;
   }
   
   .login-form {

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import './EmployeeDetail.css';
+import '../assets/css/EmployeeDetail.css';
+import Header from './Header';
+import Panel from './Panel';
+import Footer from './Footer';
 
-const EmployeeDetail = () => {
+const EmployeeDetail = ({userType}) => {
   const [formData, setFormData] = useState({
     employeeName: '',
     employeeId: '',
@@ -24,6 +27,9 @@ const EmployeeDetail = () => {
   };
 
   return (
+    <>
+    <Header/>
+    {/* <Panel userType={userType}/> */}
     <div className="emp-form-container">
       <form className="employe-form" onSubmit={handleSubmit}>
         <h2>Employee Details</h2>
@@ -92,6 +98,8 @@ const EmployeeDetail = () => {
         </div>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 };
 

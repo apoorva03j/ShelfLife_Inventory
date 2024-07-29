@@ -2,12 +2,14 @@
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
+  margin-left: 20%;
 }
 
 .dash{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin-top: 10%;
 }
 
 .section-d {

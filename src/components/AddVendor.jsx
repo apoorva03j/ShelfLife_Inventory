@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import '../assets/css/AddVendor.css';
+import Header from './Header';
+import Panel from './Panel';
+import Footer from './Footer';
 
-const AddVendor = () => {
+const AddVendor = ({userType}) => {
   const [formData, setFormData] = useState({
     email: '',
     vendorName: '',
@@ -28,6 +31,9 @@ const AddVendor = () => {
   };
 
   return (
+    <>
+    <Header/>
+    {/* <Panel userType={userType}/> */}
     <div className="form-container-vendor">
       <form className="vendor-form" onSubmit={handleSubmit}>
         <h1 className='header-vendor'>Add Vendor Details</h1>
@@ -126,6 +132,8 @@ const AddVendor = () => {
         </div>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 };
 

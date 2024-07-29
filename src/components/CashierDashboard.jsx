@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
+import HeaderCash from './HeaderCash';
+import Panelcash from './Panelcash';
+import Footer1 from '../components/Footer1';
 
 
 
-const CashDashboard = () => {
+const CashDashboard = ({userType}) => {
     const [salesData, setSalesData] = useState({
         toBeDelivered: [
           { product: 'Product A', quantity: 100 },
@@ -59,6 +62,9 @@ const CashDashboard = () => {
 
 
   return (
+    <>
+    <HeaderCash/>
+    <Panelcash userType={userType}/>
     <div className="dashboard">
     
     <div className='dash'>
@@ -139,6 +145,8 @@ const CashDashboard = () => {
 
     
     </div>
+    <Footer1/>
+    </>
   );
 };
 

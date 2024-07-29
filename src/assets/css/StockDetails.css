@@ -2,6 +2,7 @@
   margin: 20px;
   border-collapse: collapse;
   width: 95%;
+  /* margin-top: 150px */
 }
 
 .table-header-cell {
@@ -48,6 +49,7 @@
   text-align: left;
   padding-left: 25px;
   color: black;
+  margin-top: 100px;
 }
 
 
