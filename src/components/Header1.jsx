@@ -4,26 +4,10 @@ import '../assets/css/Header.css';
 import { useNavigate } from 'react-router-dom';
 
 const Header1 = () => {
-//   const [adminData, setAdminData] = useState({});
 
   const navigate = useNavigate();
 
-//   useEffect(() => {
-//     const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
-//     if (storedIsLoggedIn) {
-//       setIsLoggedIn(JSON.parse(storedIsLoggedIn));   
-//   
 
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-//   }, [isLoggedIn]);
-
-//   useEffect(() => {
-//     setAdminData({ name: 'Admin' });
-//   }, []);
 
   const handleLogin = () =>{
     navigate('/login');

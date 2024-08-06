@@ -1,30 +1,17 @@
 import { useEffect } from "react";
 import Panel from "./Panel";
+import { useAuth } from "./AuthProvider";
+import Header1 from "./Header1";
+import Header from "./Header";
 
 
-const Main = ({isLoggedIn, userType, setIsLoggedIn}) => {
+const Main = () => {
 
-    useEffect(() => {
-        const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
-        if (storedIsLoggedIn) {
-          setIsLoggedIn(JSON.parse(storedIsLoggedIn));   
-      
-    
-        }
-      }, []);
-    
-      useEffect(() => {
-        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-      }, [isLoggedIn]);
-
-    useEffect(()=>{
-        console.log(isLoggedIn, userType);
-
-    }, []);
+  const { isLoggedIn, userId} = useAuth();
 
     return(
         <>
-        {isLoggedIn && <Panel isLoggedIn={isLoggedIn} userType={userType} setIsLoggedIn={setIsLoggedIn}/>}
+          
         </>
     );
 }

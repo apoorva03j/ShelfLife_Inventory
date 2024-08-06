@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../assets/css/StockDetails.css';
 import Header from './Header';
 import Panel from './Panel';
-import Footer from './Footer1';
+import Footer from './Footer';
 
 const StockDetails = ({userType}) => {
   const [stockData, setStockData] = useState({

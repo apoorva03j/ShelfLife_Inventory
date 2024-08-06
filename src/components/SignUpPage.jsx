@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../assets/css/SignUpPage.css';
 import Header1 from './Header1';
 import Footer from './Footer';
+import axios from 'axios';
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -28,11 +29,35 @@ const SignUpPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Data:', formData);
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+
+
+    // Validation (optional)
+    // Add checks for required fields, password confirmation, etc.
+
+    try {
+      const formDataToSend = new FormData(); // Create a FormData object
+
+      // Add data to FormData
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+
+      const response = await axios.post('http://localhost:8080/signup', formDataToSend, {
+        headers: { 'Content-Type': 'multipart/form-data' } // Set content type for file uploads
+      });
+
+      console.log('Sign Up Response:', response.data);
+
+      // Handle successful signup (e.g., redirect to login page)
+    } catch (error) {
+      console.error('Sign Up Error:', error);
+
+      // Handle signup errors (e.g., display error message)
+    }
   };
+
 
   return (
     <>
@@ -161,7 +186,7 @@ const SignUpPage = () => {
           />
         </div>
         <div className="form-group-s full-width">
-          <button type="submit">Sign Up</button>
+          <button type="submit" onClick={handleSubmit}>Sign Up</button>
         </div>
         <div className="form-group-s full-width">
           <p>Already have an account? <Link to="/login">Sign In</Link></p>

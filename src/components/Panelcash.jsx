@@ -34,7 +34,8 @@ const Panel = ({ userType, isLoggedIn}) => {
         { label: 'Dashboard', link: '/cashier' }, 
         { label: 'Stock Details', link: '/stock-view' }, 
         { label: 'Vendor Details', link: '/vendor-details' },
-        { label: 'Grievances', link: '/grievance' }
+        { label: 'Generate Bill', link: '/billing' },
+        { label: 'Grievances', link: '/grievance' },
       ]);
     // }
     // else if(userType === 3){

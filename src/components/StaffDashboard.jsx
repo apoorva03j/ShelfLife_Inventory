@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
-import HeaderStaff from './HeaderStaff';
+import Header from './Header';
 import Panelstaff from './Panel';
 import Footer from './Footer1';
+import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const StaffDashboard = ({userType}) => {
+
+
     const [salesData, setSalesData] = useState({
         toBeDelivered: [
           { product: 'Product A', quantity: 100 },
@@ -61,10 +65,13 @@ const StaffDashboard = ({userType}) => {
       });
 
 
+      
+
+
   return (
 
     <>
-    <HeaderStaff />
+    <Header />
 
     <Panelstaff userType={userType}/>
     <div className="dashboard">

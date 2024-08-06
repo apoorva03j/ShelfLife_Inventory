@@ -61,21 +61,6 @@ const Header = ({userType}) => {
               Contact
             </a>
           </li>
-          <li className="nav-item">
-            <a href="/grievance" className="nav-link">
-              Grievance
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/stock-view" className="nav-link">
-              Stock Details
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/billing" className="nav-link">
-              Generate-Bill
-            </a>
-          </li>
         </ul>
       </nav>
 

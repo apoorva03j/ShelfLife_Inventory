@@ -6,10 +6,14 @@ import '../assets/css/ManagerDashboard.css';
 import Header from './Header';
 import Panel from './Panel';
 import Footer1 from './Footer1';
+import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Dashboard = ({userType}) => {
+
+  
     const [salesData, setSalesData] = useState({
         toBeDelivered: [
           { product: 'Product A', quantity: 100 },
@@ -62,11 +66,13 @@ const Dashboard = ({userType}) => {
       });
 
 
+      
+
   return (
 
     <>
     <Header/>
-    <Panel userType={userType}/>
+    <Panel/>
     <div className="dashboard">
 
 <div className='dash'>

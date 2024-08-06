@@ -3,47 +3,62 @@ import '../assets/css/LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 import Header1 from './Header1';
 import Footer from './Footer';
+import axios from 'axios';
+import { useAuth } from './AuthProvider';
 
 const LoginPage = ({setUserType}) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const { login } = useAuth();
+
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    if (name === 'username') {
+      setUsername(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
   };
+  
 
-  const validateData = () =>{
-    if(formData.username==='manager' && formData.password==='manager01'){
-      setUserType(1);
-      navigate('/manager');
-      // setIsLoggedIn(true);
+  const validateData = async () => {
+
+    const formData = {username, password};
+    try {
+        const response = await axios.post('http://localhost:8080/login', formData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response);
+        const userType = response.data;
+        const userId = response.data.uid;
+        login(userId);
+
+
+        if(userType.user_type==='manager'){
+          navigate("/manager");
+        }
+        else if(userType.user_type==='cashier'){
+          navigate("/cashier");
+        }
+        else{
+          navigate("/staff");
+        }
+
+
+    } catch (error) {
+        // Handle login error
+        console.error(error);
     }
-    else if(formData.username==='cashier' && formData.password==='cashier01'){
-      setUserType(2);
-      navigate('/cashier');
-      // setIsLoggedIn(true);
-    }
-    else if(formData.username==='staff' && formData.password==='staff01'){
-      setUserType(3);
-      navigate('/staff');
-      // setIsLoggedIn(true);
-    }
-    else{
-      alert('Invalid username or password');
-    }
-  }
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
     validateData()
 
   };
@@ -59,7 +74,7 @@ const LoginPage = ({setUserType}) => {
             type="text"
             name="username"
             placeholder="Username"
-            value={formData.username}
+            value={username}
             onChange={handleChange}
             required
           />
@@ -69,7 +84,7 @@ const LoginPage = ({setUserType}) => {
             type="password"
             name="password"
             placeholder="Password"
-            value={formData.password}
+            value={password}
             onChange={handleChange}
             required
           />

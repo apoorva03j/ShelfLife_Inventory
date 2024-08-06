@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import '../assets/css/BillingPage.css';
 
 const BillingPage = () => {
@@ -11,53 +11,95 @@ const BillingPage = () => {
   const [totalItemsSold, setTotalItemsSold] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [discountType, setDiscountType] = useState('Percentage'); // default discount type
-  const [discountValue, setDiscountValue] = useState(10); // default discount value
+  const [discountValue, setDiscountValue] = useState(0); // default discount value
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
 
+  const handleQuantityChange = (index, event) => {
+    const newQuantity = Number(event.target.value);
+    const newProducts = [...products];
+    const oldProduct = products[index];
+    const oldAmount = oldProduct.quantity * oldProduct.mrp;
+    const newAmount = newQuantity * oldProduct.mrp;
+    newProducts[index] = { ...oldProduct, quantity: newQuantity, amount: newAmount };
+    setProducts(newProducts);
+    calculateGrandTotal(); // Call calculateGrandTotal after updating products
+  };
+
+  const handleMRPChange = (index, event) => {
+    const newMRP = Number(event.target.value);
+    const newProducts = [...products];
+    const oldProduct = products[index];
+    const oldAmount = oldProduct.quantity * oldProduct.mrp;
+    const newAmount = oldProduct.quantity * newMRP;
+    newProducts[index] = { ...oldProduct, mrp: newMRP, amount: newAmount };
+    setProducts(newProducts);
+    calculateGrandTotal(); // Call calculateGrandTotal after updating products
+  };
+
+  const calculateGrandTotal = () => {
+    let totalTax = 0;
+    let totalAmount = 0;
+
+    products.forEach((product) => {
+      const taxAmount = product.mrp * product.gstRate / 100;
+      totalAmount += product.quantity * product.mrp;
+      totalTax += taxAmount;
+    });
+
+    let discountedTotal = totalAmount;
+    if (discountType === 'Percentage') {
+      discountedTotal = totalAmount - (totalAmount * discountValue / 100);
+    } else if (discountType === 'Amount') {
+      discountedTotal = totalAmount - discountValue;
+    }
+
+    setGrandTotal(discountedTotal + totalTax);
+  };
+
+  const handleDiscountTypeChange = (event) => {
+    setDiscountType(event.target.value);
+    calculateGrandTotal(); // Recalculate grand total on discount type change
+  };
+
+  const handleDiscountValueChange = (event) => {
+    setDiscountValue(Number(event.target.value));
+    calculateGrandTotal(); // Recalculate grand total on discount value change
+  };
+
   const handleAddProduct = (event) => {
     if (event.key === 'Enter') {
       const productName = event.target.value;
-      const quantity = 1; // default quantity
-      const gstRate = 0; // default gst rate
-      const mrp = 0; // default mrp
-      const amount = mrp * quantity; // calculate amount
+      const quantity = 1; // Default quantity
+      const gstRate = 0; // Default GST rate
+      const mrp = 0; // Default MRP
+      const amount = mrp * quantity; // Calculate amount
       const newProduct = { name: productName, quantity, gstRate, mrp, amount };
       setProducts([...products, newProduct]);
       setTotalItemsSold(totalItemsSold + 1);
-      setGrandTotal(grandTotal + amount);
+      calculateGrandTotal(); // Call calculateGrandTotal after adding product
     }
   };
 
+  useEffect(() => {
+    calculateGrandTotal();
+  }, [products]);
+  
   const handleRemoveProduct = (index) => {
     const newProducts = [...products];
     newProducts.splice(index, 1);
     setProducts(newProducts);
     setTotalItemsSold(totalItemsSold - 1);
-    setGrandTotal(grandTotal - newProducts[index].amount);
+    calculateGrandTotal(); // Call calculateGrandTotal after removing product
   };
-
-  const handleDiscountTypeChange = (event) => {
-    setDiscountType(event.target.value);
-  };
-
-  const handleDiscountValueChange = (event) => {
-    setDiscountValue(event.target.value);
-    calculateGrandTotal();
-  };
-
-  const calculateGrandTotal = () => {
-    let discountedTotal = grandTotal;
-    if (discountType === 'Percentage') {
-      discountedTotal = grandTotal - (grandTotal * discountValue / 100);
-    } else if (discountType === 'Amount') {
-      discountedTotal = grandTotal - discountValue;
-    }
-    setGrandTotal(discountedTotal);
-  };
-
+  
+  
+  const handlePrint = () => {
+    window.print();
+  }
+  
   return (
     <Fragment>
       <div className="billing-page">
@@ -83,7 +125,7 @@ const BillingPage = () => {
                 <th>MRP</th>
                 <th>Tax</th>
                 <th>Total Amount</th>
-                <th>Action</th>
+                <th className='nodisplay'>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -99,13 +141,7 @@ const BillingPage = () => {
                     }} />
                   </td>
                   <td>
-                    <input type="number" value={product.quantity} onChange={(event) => {
-                      const newProduct = {...product, quantity: event.target.value };
-                      const newProducts = [...products];
-                      newProducts[index] = newProduct;
-                      setProducts(newProducts);
-                      setGrandTotal(grandTotal - product.amount + newProduct.quantity * newProduct.mrp);
-                    }} />
+                    <input type="number" value={product.quantity} onChange={(event) => handleQuantityChange(index, event)}  />
                   </td>
                   <td>
                     <input type="number" value={product.gstRate} onChange={(event) => {
@@ -117,11 +153,7 @@ const BillingPage = () => {
                   </td>
                   <td>
                     <input type="number" value={product.mrp} onChange={(event) => {
-                      const newProduct = {...product, mrp: event.target.value };
-                      const newProducts = [...products];
-                      newProducts[index] = newProduct;
-                      setProducts(newProducts);
-                      setGrandTotal(grandTotal - product.amount + newProduct.quantity * newProduct.mrp);
+                      handleMRPChange(index, event)
                     }} />
                   </td>
                   <td>
@@ -149,33 +181,38 @@ const BillingPage = () => {
           </table>
         </div>
         <div className="billing-requirements">
-          <label>Payment Mode:</label>
-          <select>
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
-            <option value="upi">UPI</option>
-          </select>
-          <br />
-          <label>Discount Type:</label>
-          <select value={discountType} onChange={handleDiscountTypeChange}>
-            <option value="Percentage">Percentage</option>
-            <option value="Amount">Amount</option>
-          </select>
-          <br />
-          <label>Discount Value:</label>
-          <input type="number" value={discountValue} onChange={handleDiscountValueChange} />
-          <br />
-          <label>Total Items Sold: {totalItemsSold}</label>
-          <br />
-          <label>Grand Total: ₹ {grandTotal.toFixed(2)}</label>
-        </div>
-        <div className="actions">
-          <button onClick={() => console.log('Bill save successfully!')}>Save Bill</button>
-          
-          <button onClick={() => console.log('Print Bill!')}>Print Bill</button>
-          <button onClick={() => console.log('Quit Bill!')}>Quit Bill</button>
-        </div>
-      </div>
+  <div className='bill-1'>
+    <div className='bill-2'>
+    <label>Payment Mode:</label>
+    <select>
+      <option value="cash">Cash</option>
+      <option value="card">Card</option>
+      <option value="upi">UPI</option>
+    </select>
+    </div>
+
+    <div className='bill-2'>
+    <label>Discount Type:</label>
+    <select value={discountType} onChange={handleDiscountTypeChange}>
+      <option value="Percentage">Percentage</option>
+      <option value="Amount">Amount</option>
+    </select>
+    </div>
+
+    <div className='bill-2'>
+    <label>Discount Value:</label>
+    <input className="select-bill" type="number" value={discountValue} onChange={handleDiscountValueChange} />
+    </div>
+  </div>
+  <div>
+    <label>Total Items Sold: {totalItemsSold}</label>
+    <label>Grand Total: ₹ {grandTotal.toFixed(2)}</label>
+  </div>
+</div>
+      <button className='login-btn' onClick={handlePrint}>Print</button>
+</div>
+
+
     </Fragment>
   );
 };
