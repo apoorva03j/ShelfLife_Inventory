@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Panel from './Panel';
 import Footer from './Footer1';
+import { AuthContext } from './AuthProvider';
 
 const ManagerProfile = () => {
+
+  const { userId, isLoggedIn } = useContext(AuthContext); 
+
+
   const [managerData, setManagerData] = useState({
     name: '',
     username: '',
@@ -42,19 +47,20 @@ const ManagerProfile = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put('/api/managers/me', managerData); // Update API endpoint
+      const response = await axios.put('http://localhost:8080/update-profile', managerData);
       console.log('Manager data updated successfully:', response.data);
-      setIsEditing(false); // Set editing mode to false after successful update
+      setIsEditing(false);
     } catch (error) {
       console.error('Error updating manager data:', error);
     }
   };
 
   useEffect(() => {
-    // Fetch manager data from API
+    console.log(userId);
+    console.log(isLoggedIn);
     const fetchManagerData = async () => {
       try {
-        const response = await axios.get('/api/managers/me');
+        const response = await axios.get(`http://localhost:8080/get-profile/${userId}`);
         setManagerData(response.data);
       } catch (error) {
         console.error('Error fetching manager data:', error);

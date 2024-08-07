@@ -26,7 +26,8 @@ const Panel = ({ userType, isLoggedIn}) => {
         { label: 'Stock Details', link: '/stock' }, 
         { label: 'Add Vendor', link: '/add-vendor' },
         { label: 'Vendor Details', link: '/vendor-details' },
-        { label: 'Grievances', link: '/grievance' }
+        { label: 'Grievances', link: '/grievance' },
+        { label: 'Profile', link: '/manager-profile'}
       ]);
     // }
     // else if(userType === 2){

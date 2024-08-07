@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import '../assets/css/Header.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
+import { AuthContext } from './AuthProvider';
 import dp from '../assets/images/dp.png';
+import { UserContext } from './UserContext';
 
 
 const Header = ({userType}) => {
-  const { userId, logout } = useAuth(); 
   const [adminData, setAdminData] = useState({
     name: '',
     photo: ''
   });
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
-  const findUser = async () => {
-    try {
-      const response = await axios.get(`http://localhost:/users/${userId}`);
-      const { name } = response.data;
-      setAdminData({ name });
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
 
   const handleLogout = () => {
-    logout();
+    setUser({});
+    navigate("/");
   }
 
   return (

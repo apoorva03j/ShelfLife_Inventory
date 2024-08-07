@@ -1,19 +1,18 @@
-
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
 import Header from './Header';
-import Panel from './Panel';
-import Footer1 from './Footer1';
+import Panelstaff from './Panel';
+import Footer from './Footer1';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 
 
-const Dashboard = ({userType}) => {
+const StaffDashboard = ({userType}) => {
 
-  
+
     const [salesData, setSalesData] = useState({
         toBeDelivered: [
           { product: 'Product A', quantity: 100 },
@@ -43,8 +42,8 @@ const Dashboard = ({userType}) => {
         ],
       });
     
-      const [financialData, setFinancialData] = useState({
-        yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
+      const [attendanceData, setAttendanceData] = useState({
+        yearlySales: [900000, 850000, 750000, 900000, 1000000, 700000],
       });
     
       const [employeeData, setEmployeeData] = useState({
@@ -65,43 +64,36 @@ const Dashboard = ({userType}) => {
         stockLevels: [5, 20, 10, 15]
       });
 
-
-      
-
   return (
 
     <>
-    <Header/>
-    <Panel/>
-    <div className="dashboard">
+    <Header />
 
-<div className='dash'>
-        <div className="section-d-small">
-            <h2>Bills Generated Today</h2>
+    <Panelstaff userType={userType}/>
+    <div className="dashboard">
+    
+    <div className='dash'>
+        <div className="section-d-staff">
+            <h2>Units To Be Delivered</h2>
             <div className='sub-section-d'>
-                <h4>100</h4>
+                <h4>150</h4>
             </div>
         </div>
-        <div className="section-d-small">
-            <h2>Total Sales Today</h2>
+        <div className="section-d-staff">
+            <h2>Units To Be Received</h2>
             <div className='sub-section-d'>
-                <h4>$7000</h4>
+                <h4>50</h4>
             </div>
         </div>
-        <div className="section-d-small">
-            <h2>Units Sold Today</h2>
+        <div className="section-d-staff">
+            <h2>Units About to Expired</h2>
             <div className='sub-section-d'>
-                <h4>70</h4>
-            </div>
-        </div>
-        <div className="section-d-small">
-            <h2>Units Received Today</h2>
-            <div className='sub-section-d'>
-                <h4>140</h4>
+                <h4>4</h4>
             </div>
         </div>
     </div>
 
+    <div className='dash'>
         <div className="section-d">
         <h2>Sales Overview</h2>
         <div className="chart-container">
@@ -112,34 +104,6 @@ const Dashboard = ({userType}) => {
               data: salesData?.monthlySales || [], // Handle empty data
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-            }]
-          }} />
-        </div>
-      </div>
-
-        <div className="section-d">
-        <h2>Sales By Category</h2>
-        <div className="chart-container">
-          <Pie data={{
-            labels: salesData.salesByCategory.map(item => item.label),
-            datasets: [{
-              label: 'Sales by Category',
-              data: salesData.salesByCategory.map(item => item.value),
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153,102, 153, 0.2)',
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 153, 1)'
-              ],
               borderWidth: 1
             }]
           }} />
@@ -166,14 +130,14 @@ const Dashboard = ({userType}) => {
       </div>
 
       <div className="section-d">
-      <h2>Financial Overview</h2>
+      <h2>Attendance Data</h2>
       <div className="chart-container">
         <Line data={{
           labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
           datasets: [
             {
               label: 'Sales',
-              data: financialData?.yearlySales || [], 
+              data: attendanceData?.monthly || [], 
               fill: false,
               borderColor: 'rgba(75, 192, 192, 1)',
               tension: 0.1
@@ -182,29 +146,13 @@ const Dashboard = ({userType}) => {
         }} />
       </div>
     </div>
+    </div>
 
-    <div className="section-d">
-        <h2>Employee Management</h2>
-        <div className="chart-container">
-          <Bar data={{
-            labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: employeeData.attendance.map((employee, index) => ({
-              label: employee.employee,
-              data: employee.data,
-              backgroundColor: employeeColors[index],
-              borderColor: 'rgba(75, 190, 192, 1)',
-              borderWidth: 1
-            }))
-          }}
-          />
-        </div>
-      </div>
     
     </div>
-    <Footer1/>
-
+        <Footer/>
     </>
   );
 };
 
-export default Dashboard;
+export default StaffDashboard;
