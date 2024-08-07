@@ -21,7 +21,7 @@ const Panel = ({ userType, isLoggedIn}) => {
   const decide = () => {
     // if (userType === 1) {
       setMenuItems([
-        { label: 'Dashboard', link: '/' }, 
+        { label: 'Dashboard', link: '/manager' }, 
         { label: 'Add Employee', link: '/add-employee'},
         { label: 'Stock Details', link: '/stock' }, 
         { label: 'Add Vendor', link: '/add-vendor' },

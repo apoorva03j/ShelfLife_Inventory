@@ -5,6 +5,7 @@ import Panel from './Panel';
 import Footer from './Footer1';
 import { UserContext } from './UserContext';
 import '../assets/css/ManagerProfile.css';
+import edit from '../assets/images/edit.png';
 
 const ManagerProfile = () => {
   const { user } = useContext(UserContext);
@@ -12,15 +13,14 @@ const ManagerProfile = () => {
   const [managerData, setManagerData] = useState({
     name: '',
     username: '',
-    password: '',
+    password: '********',
     company: {
       name: '',
       address: '',
       email: '',
-      contactNumber: '',
-      businessRegistrationNumber: '',
-      vatGstNumber: '',
-      businessLicenseDocument: '',
+      phoNo: '',
+      businessRegNo: '',
+      vatNo: '',
     },
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -67,12 +67,13 @@ const ManagerProfile = () => {
               name: '',
               address: '',
               email: '',
-              contactNumber: '',
-              businessRegistrationNumber: '',
-              vatGstNumber: '',
-              businessLicenseDocument: '',
+              phoNo: '',
+              businessRegNo: '',
+              vatNo: '',
             };
           }
+
+          fetchedData.password = "********";
           setManagerData(fetchedData);
         } catch (error) {
           console.error('Error fetching manager data:', error);
@@ -96,8 +97,12 @@ const ManagerProfile = () => {
       <Header />
       <Panel />
       <div className="manager-profile">
-        <h2>Manager Profile</h2>
-        <button onClick={() => setIsEditing(!isEditing)}>Edit Profile</button>
+      <div className='manager-profile-header'>
+        <h1>Profile</h1>
+        <button onClick={() => setIsEditing(!isEditing)} className='edit-btn'>
+          Edit Profile
+        </button>
+        </div>
         <div className="manager-details">
           <h3>Manager Information</h3>
           {isEditing ? (
@@ -106,26 +111,32 @@ const ManagerProfile = () => {
                 type="text"
                 name="name"
                 value={managerData.name}
+                placeholder='Name'
                 onChange={handleInputChange}
+                className='input-box-profile'
               />
               <input
                 type="text"
                 name="username"
+                placeholder='Username'
                 value={managerData.username}
                 onChange={handleInputChange}
+                className='input-box-profile'
               />
               <input
                 type="password"
                 name="password"
                 value={managerData.password}
+                placeholder='Password'
                 onChange={handleInputChange}
+                className='input-box-profile'
               />
             </>
           ) : (
             <>
               <p>Name: {managerData.name}</p>
               <p>Username: {managerData.username}</p>
-              <p>Password: {managerData.password}</p> {/* Consider not displaying password directly */}
+              <p>Password: {managerData.password}</p>
             </>
           )}
         </div>
@@ -136,38 +147,51 @@ const ManagerProfile = () => {
               <input
                 type="text"
                 name="name"
+                placeholder='Company Name'
                 value={managerData.company?.name || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
               <input
                 type="text"
                 name="address"
+                placeholder='Company Address'
                 value={managerData.company?.address || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
               <input
                 type="email"
                 name="email"
+                placeholder='Company Email'
                 value={managerData.company?.email || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
               <input
                 type="text"
-                name="contactNumber"
-                value={managerData.company?.contactNumber || ''}
+                name="phoNo"
+                placeholder='Contact Number'
+                value={managerData.company?.phoNo || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
               <input
                 type="text"
-                name="businessRegistrationNumber"
-                value={managerData.company?.businessRegistrationNumber || ''}
+                name="businessRegNo"
+                placeholder='Business Registration Number'
+                value={managerData.company?.businessRegNo || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
+              
               <input
                 type="text"
-                name="vatGstNumber"
-                value={managerData.company?.vatGstNumber || ''}
+                name="vatNo"
+                placeholder='VAT / GST Number'
+                value={managerData.company?.vatNo || ''}
                 onChange={handleCompanyInputChange}
+                className='input-box-profile'
               />
             </>
           ) : (
@@ -175,13 +199,13 @@ const ManagerProfile = () => {
               <p>Name: {managerData.company?.name || 'N/A'}</p>
               <p>Address: {managerData.company?.address || 'N/A'}</p>
               <p>Email: {managerData.company?.email || 'N/A'}</p>
-              <p>Contact Number: {managerData.company?.contactNumber || 'N/A'}</p>
-              <p>Business Registration Number: {managerData.company?.businessRegistrationNumber || 'N/A'}</p>
-              <p>VAT/GST Number: {managerData.company?.vatGstNumber || 'N/A'}</p>
+              <p>Contact Number: {managerData.company?.phoNo || 'N/A'}</p>
+              <p>Business Registration Number: {managerData.company?.businessRegNo || 'N/A'}</p>
+              <p>VAT/GST Number: {managerData.company?.vatNo || 'N/A'}</p>
             </>
           )}
         </div>
-        {isEditing && <button onClick={handleSave}>Save Changes</button>}
+        {isEditing && <button onClick={handleSave} className='save-btn-profile'>Save Changes</button>}
       </div>
       <Footer />
     </>

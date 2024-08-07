@@ -1,104 +1,124 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../assets/css/EmployeeDetail.css';
 import Header from './Header';
-import Panel from './Panel';
+// import Panel from './Panel';
 import Footer from './Footer';
+import axios from 'axios';
+import { UserContext } from './UserContext';
 
-const EmployeeDetail = ({userType}) => {
+const EmployeeDetail = ({ userType }) => {
+  const { user } = useContext(UserContext);
   const [formData, setFormData] = useState({
-    employeeName: '',
-    employeeId: '',
-    employeeAddress: '',
-    employeeEmail: '',
-    employeePhno: '',
-    employeeSalary: '',
-    employeeAttendance: '',
+    email: '',
+    username: '',
+    password: '',
+    fname: '',
+    lname: '',
+    user_type: '',
+    name: '',
+    cid: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({...prevState, [name]: value }));
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    // You can add more logic here to handle form submission
+
+    const updatedFormData = {
+      ...formData,
+      name: formData.fname + ' ' + formData.lname,
+      company: user.company,
+    };
+
+    console.log('Form Data:', updatedFormData);
+
+    try {
+      const resp = await axios.post(`http://localhost:8080/add-employee`, updatedFormData);
+      console.log(resp);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
     <>
-    <Header/>
-    {/* <Panel userType={userType}/> */}
-    <div className="emp-form-container">
-      <form className="employe-form" onSubmit={handleSubmit}>
-        <h2>Employee Details</h2>
-        <div className="emp-form-group">
-          <input
-            type="text"
-            name="employeeName"
-            placeholder="Employee Name"
-            value={formData.employeeName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group">
-          <input
-            type="text"
-            name="employeeId"
-            placeholder="Employee ID"
-            value={formData.employeeId}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group">
-          <input
-            type="text"
-            name="employeeAddress"
-            placeholder="Employee Address"
-            value={formData.employeeAddress}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group">
-          <input
-            type="email"
-            name="employeeEmail"
-            placeholder="Employee Email"
-            value={formData.employeeEmail}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group">
-          <input
-            type="tel"
-            name="employeePhno"
-            placeholder="Employee Phone Number"
-            value={formData.employeePhno}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group">
-          <input
-            type="number"
-            name="employeetype"
-            placeholder="Employee Type"
-            value={formData.employeeAttendance}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="emp-form-group full-width">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-    </div>
-    <Footer/>
+      <Header />
+      {/* <Panel userType={userType} /> */}
+      <div className="emp-form-container">
+        <form className="employe-form" onSubmit={handleSubmit}>
+          <h2>Employee Details</h2>
+          <div className="emp-form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group">
+            <input
+              type="text"
+              name="fname"
+              placeholder="First Name"
+              value={formData.fname}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group">
+            <input
+              type="text"
+              name="lname"
+              placeholder="Last Name"
+              value={formData.lname}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group">
+            <input
+              type="text"
+              name="user_type"
+              placeholder="User Type"
+              value={formData.user_type}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="emp-form-group full-width">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <Footer />
     </>
   );
 };

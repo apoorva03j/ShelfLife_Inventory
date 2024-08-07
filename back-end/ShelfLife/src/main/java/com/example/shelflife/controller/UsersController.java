@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,11 +50,42 @@ public class UsersController {
         }
     }
     
-    @GetMapping("/get-profile")
-    public ResponseEntity<Company> getProfile(@PathVariable int userId) {
+    @GetMapping("/get-profile/{userId}")
+    public ResponseEntity<Users> getProfile(@PathVariable int userId) {
     	Users user = userService.getUserById(userId);
     	Company comp = user.getCompany();
-    	return ResponseEntity.ok(comp);
+    	return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping("/signup")
+    public ResponseEntity<Users> signUp(@RequestBody Users user){
+    	Users us = userService.saveUser(user);
+    	return ResponseEntity.ok(us);
+    }
+    
+    @PutMapping("/update-profile")
+    public ResponseEntity<Users> updateProfile(@RequestBody Users user){
+    	Users us = userService.getUserById(user.getUid());
+    	if(us!=null) {
+    		us.setCompany(user.getCompany());
+    		us.setEmail(user.getEmail());
+    		us.setFname(user.getFname());
+    		us.setLname(user.getLname());
+    		us.setName(user.getName());
+    		us.setPassword(user.getPassword());
+    		us.setUser_type(user.getUser_type());
+    		
+    		return ResponseEntity.ok(us);
+    	}
+    	else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);    	
+        }
+    }
+    
+    @PostMapping("/add-employee")
+    public ResponseEntity<Users> addEmployee(@RequestBody Users user){
+    	Users us = userService.saveUser(user);
+    	return ResponseEntity.ok(us);
     }
     
 }

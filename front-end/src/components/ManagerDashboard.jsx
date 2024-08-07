@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import Chart from 'chart.js/auto';
+// import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
 import Header from './Header';
 import Panel from './Panel';
 import Footer1 from './Footer1';
-import { AuthContext } from './AuthProvider';
+// import { AuthContext } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
@@ -73,7 +73,7 @@ const Dashboard = () => {
         if(user.id===null){
           navigate("/login");
         }
-      }, [])
+      }, []);
       
 
   return (
@@ -83,7 +83,7 @@ const Dashboard = () => {
     <Panel/>
     <div className="dashboard">
 
-<div className='dash'>
+      <div className='dash'>
         <div className="section-d-small">
             <h2>Bills Generated Today</h2>
             <div className='sub-section-d'>
