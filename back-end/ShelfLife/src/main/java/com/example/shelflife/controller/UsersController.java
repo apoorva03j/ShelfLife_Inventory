@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.shelflife.entity.Company;
+import com.example.shelflife.entity.Products;
 import com.example.shelflife.entity.Users;
+import com.example.shelflife.entity.Vendor;
+import com.example.shelflife.services.ProductsService;
 import com.example.shelflife.services.UsersService;
+import com.example.shelflife.services.VendorService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,15 +28,19 @@ public class UsersController {
 
     @Autowired
     private UsersService userService;
+    
+    @Autowired
+    private ProductsService prodServ;
+    
+    @Autowired
+    private VendorService vendServ;
 
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users user) {
         Users existingUser = userService.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (existingUser != null) {
-            // Authentication successful, return user object with user_type
             return ResponseEntity.ok(existingUser);
         } else {
-            // Authentication failed, return error message
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
@@ -88,4 +97,42 @@ public class UsersController {
     	return ResponseEntity.ok(us);
     }
     
+    @GetMapping("/get-stock-details")
+    public List<Products> getAllStock(){
+    	return prodServ.getAllProd();
+    }
+    
+    @PutMapping("/update-product/{pid}")
+    public ResponseEntity<Products> updateProd(@PathVariable int pid, @RequestBody Products product){
+    	Products prod = prodServ.updateProduct(pid, product);
+    	return ResponseEntity.ok(prod);
+    }
+    
+    @DeleteMapping("/delete-product/{pid}")
+    public ResponseEntity<Products> deleteProd(@PathVariable int pid){
+    	Products prod = prodServ.deleteProd(pid);
+    	return ResponseEntity.ok(prod);
+    }
+    
+    @PostMapping("/add-product")
+    public ResponseEntity<Products> addProd(@RequestBody Products p){
+    	Products prod = prodServ.addProd(p);
+    	return ResponseEntity.ok(prod);
+    }
+    
+    @PostMapping("/add-vendor")
+    public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vend){
+    	Vendor vendr = vendServ.addVendor(vend);
+    	return ResponseEntity.ok(vendr);
+    }
+    
+    @GetMapping("/get-vendors")
+    public List<Vendor> getAllVend(){
+    	return vendServ.getAll();
+    }
+    
+    @GetMapping("/low-stock")
+    public List<Products> getLowStock(){
+    	return prodServ.getLowStockProd();
+    }
 }
