@@ -22,6 +22,7 @@ import ManagerProfile from './components/ManagerProfile';
 import { UserProvider } from './components/UserContext';
 import PrivateRoute from './components/PrivateRoute';
 import { useState } from 'react';
+// import Main from './components/Main';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className='App'>
+
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />

@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React, {  useContext } from 'react';
+// import axios from 'axios';
 import '../assets/css/Header.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from './AuthProvider';
+// import { AuthContext } from './AuthProvider';
 import dp from '../assets/images/dp.png';
 import { UserContext } from './UserContext';
 
 
 const Header = ({userType}) => {
-  const [adminData, setAdminData] = useState({
-    name: '',
-    photo: ''
-  });
+  // const [adminData, setAdminData] = useState({
+  //   name: '',
+  //   photo: ''
+  // });
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const {  setUser } = useContext(UserContext);
 
 
   const handleLogout = () => {

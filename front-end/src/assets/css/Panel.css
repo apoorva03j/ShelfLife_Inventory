@@ -21,6 +21,11 @@
   transform: translateX(-100%);
 }
 
+.img-logo{
+  width: 50px;
+  object-fit: contain;
+  margin-right: 20px;
+}
 
 .panel-top{
   display: flex;

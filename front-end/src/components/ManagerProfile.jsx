@@ -100,7 +100,7 @@ const ManagerProfile = () => {
       <div className='manager-profile-header'>
         <h1>Profile</h1>
         <button onClick={() => setIsEditing(!isEditing)} className='edit-btn'>
-          Edit Profile
+          <img src={edit} alt="Edit" className="edit"/>
         </button>
         </div>
         <div className="manager-details">

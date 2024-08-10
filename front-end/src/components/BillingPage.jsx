@@ -1,5 +1,7 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import '../assets/css/BillingPage.css';
+import axios from 'axios';
+import { UserContext } from './UserContext';
 
 const BillingPage = () => {
   const [billNo, setBillNo] = useState(Math.floor(100000 + Math.random() * 900000)); // auto-generated bill no
@@ -12,9 +14,16 @@ const BillingPage = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [discountType, setDiscountType] = useState('Percentage'); // default discount type
   const [discountValue, setDiscountValue] = useState(0); // default discount value
+  const [paymentMode, setPaymentMode] = useState('cash'); // Default payment mode
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+
+
+
+  const {user} = useContext(UserContext);
+  
 
   const handleSearch = (event) => {
-    setSearch(event.target.value);
+    setSearch(event.target.value);  
   };
 
   const handleQuantityChange = (index, event) => {
@@ -69,19 +78,50 @@ const BillingPage = () => {
     calculateGrandTotal(); // Recalculate grand total on discount value change
   };
 
-  const handleAddProduct = (event) => {
+  // const handleAddProduct = (event) => {
+  //   if (event.key === 'Enter') {
+  //     const productName = event.target.value;
+  //     const quantity = 1; // Default quantity
+  //     const gstRate = 0; // Default GST rate
+  //     const mrp = 0; // Default MRP
+  //     const amount = mrp * quantity; // Calculate amount
+  //     const newProduct = { name: productName, quantity, gstRate, mrp, amount };
+  //     setProducts([...products, newProduct]);
+  //     setTotalItemsSold(totalItemsSold + 1);
+  //     calculateGrandTotal(); // Call calculateGrandTotal after adding product
+  //   }
+  // };
+
+  const handleAddProduct = async (event) => {
     if (event.key === 'Enter') {
       const productName = event.target.value;
-      const quantity = 1; // Default quantity
-      const gstRate = 0; // Default GST rate
-      const mrp = 0; // Default MRP
-      const amount = mrp * quantity; // Calculate amount
-      const newProduct = { name: productName, quantity, gstRate, mrp, amount };
-      setProducts([...products, newProduct]);
-      setTotalItemsSold(totalItemsSold + 1);
-      calculateGrandTotal(); // Call calculateGrandTotal after adding product
+
+      try {
+        const response = await axios.get(`http://localhost:8080/product/search/${productName}`);
+
+        if (response.data) {
+          const product = response.data;
+          const quantity = 1;
+          const gstRate = product.gstRate || 0;
+          const mrp = product.mrp || 0;
+          const amount = mrp * quantity;
+          const newProduct = { name: product.pname, quantity, gstRate, mrp, amount };
+
+          setProducts([...products, newProduct]);
+          setTotalItemsSold(totalItemsSold + 1);
+          calculateGrandTotal();
+          setErrorMessage(''); // Clear error message if product is found
+        } else {
+          setErrorMessage('Product not found'); // Set error message if product is not found
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        setErrorMessage('Error fetching product'); // Set error message on error
+      }
     }
   };
+
+
 
   useEffect(() => {
     calculateGrandTotal();
@@ -92,13 +132,59 @@ const BillingPage = () => {
     newProducts.splice(index, 1);
     setProducts(newProducts);
     setTotalItemsSold(totalItemsSold - 1);
-    calculateGrandTotal(); // Call calculateGrandTotal after removing product
+    calculateGrandTotal(); 
   };
   
   
-  const handlePrint = () => {
-    window.print();
-  }
+  // const handlePrint = () => {
+    // const salesData = {
+    //   date: date,
+    //   cashier_id : cashierId,
+    //   total_amt: grandTotal
+    // }
+    // const resp = axios.post('', salesData);
+    // //it should return the response record - ResponseEntity.ok(Sales)
+    // const id = Response.data.sale_id
+    // window.print();
+  // }
+
+  const handlePaymentModeChange = (event) => {
+    setPaymentMode(event.target.value);
+  };
+
+
+  useEffect(()=>{
+    setCashierId(user.uid);
+    setCashierName(user.name);
+  }, [])
+
+  const handlePrint = async () => {
+    const billData = {
+      billNo,
+      date,
+      cashierName,
+      cashierId,
+      totalItems: totalItemsSold,
+      grandTotal,
+      discountType,
+      discountValue,
+      paymentMode: paymentMode,
+      products
+    };
+
+    console.log(billData);
+  
+    // try {
+    //   const response = await axios.post(`http://localhost:8080/save-bill`, billData);
+    //   console.log(response);
+    //     console.log('Bill saved successfully');
+    //     window.print();
+      
+    // } catch (error) {
+    //   console.error('Error saving bill:', error);
+    // }
+  };
+  
   
   return (
     <Fragment>
@@ -112,6 +198,7 @@ const BillingPage = () => {
        
         <div className="add-product">
           <label>Add Product:</label>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Display error message */}
           <input type="text" placeholder="Enter product name..." onKeyDown={handleAddProduct} />
         </div>
         <div className="product-table">
@@ -184,7 +271,7 @@ const BillingPage = () => {
   <div className='bill-1'>
     <div className='bill-2'>
     <label>Payment Mode:</label>
-    <select>
+    <select value={paymentMode} onChange={handlePaymentModeChange}>
       <option value="cash">Cash</option>
       <option value="card">Card</option>
       <option value="upi">UPI</option>
