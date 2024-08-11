@@ -107,57 +107,21 @@
   font-weight: bold;
 }
 
-.actions {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.actions button {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
+.print-btn {
+  padding: 0.75rem 1rem;
   border: none;
-  border-radius: 5px;
+  background-color: #283D3A;
+  color: white;
   cursor: pointer;
-  margin: 10px;
+  font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+  border-radius: 3px;
+  font-size: medium;
+  margin-right: 10px;
 }
 
-.actions button:hover {
-  background-color: #3e8e41;
+.print-btn:hover{
+  background-color: #00C9B5;
 }
-
-.actions .edit-button {
-  background-color: #008CBA;
-}
-
-.actions .edit-button:hover {
-  background-color: #0069D9;
-}
-
-.actions .save-button {
-  background-color: #4CAF50;
-}
-
-.actions .save-button:hover {
-  background-color: #3e8e41;
-}
-
-.actions .quit-button {
-  background-color: #f44336;
-}
-
-.actions .quit-button:hover {
-  background-color: #d32f2f;
-}
-
-.actions .print-button {
-  background-color: #2196F3;
-}
-
-.actions .print-button:hover {
-  background-color: #1976D2;
-}
-
 @media print{
   .product-table input[type="text"]{
     border: rgba(255, 255, 255, 0);

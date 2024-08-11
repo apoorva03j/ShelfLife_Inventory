@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.shelflife.entity.BillProduct;
+import com.example.shelflife.entity.Bills;
 import com.example.shelflife.entity.Company;
 import com.example.shelflife.entity.Products;
 import com.example.shelflife.entity.Users;
 import com.example.shelflife.entity.Vendor;
+import com.example.shelflife.services.BillsProdService;
+import com.example.shelflife.services.BillsService;
 import com.example.shelflife.services.ProductsService;
 import com.example.shelflife.services.UsersService;
 import com.example.shelflife.services.VendorService;
@@ -34,6 +38,13 @@ public class UsersController {
     
     @Autowired
     private VendorService vendServ;
+    
+    @Autowired
+    private BillsProdService billProdServ;
+    
+    @Autowired
+    private BillsService billServ;
+    
 
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users user) {
@@ -83,6 +94,7 @@ public class UsersController {
     		us.setName(user.getName());
     		us.setPassword(user.getPassword());
     		us.setUser_type(user.getUser_type());
+    		userService.saveUser(us);
     		
     		return ResponseEntity.ok(us);
     	}
@@ -134,5 +146,25 @@ public class UsersController {
     @GetMapping("/low-stock")
     public List<Products> getLowStock(){
     	return prodServ.getLowStockProd();
+    }
+    
+    @GetMapping("/product/search/{productName}")
+    public ResponseEntity<Products> search(@PathVariable String productName) {
+    	Products prod = prodServ.getByName(productName);
+    	return ResponseEntity.ok(prod);
+    }
+    
+    @PostMapping("/save-bill")
+    public ResponseEntity<Bills> saveBill(@RequestBody Bills billData) {
+        // Save the bill to the database
+        Bills savedBill = billServ.saveBill(billData);
+
+        // Save the products associated with this bill
+        for (BillProduct product : billData.getProducts()) {
+            product.setBill(savedBill);
+            billProdServ.saveBillProd(product);
+        }
+
+        return ResponseEntity.ok(savedBill);
     }
 }

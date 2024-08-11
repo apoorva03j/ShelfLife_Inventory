@@ -1,7 +1,5 @@
 package com.example.shelflife.entity;
 
-import java.sql.Blob;
-
 import jakarta.persistence.*;
 
 @Entity

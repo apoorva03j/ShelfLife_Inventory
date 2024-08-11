@@ -47,4 +47,8 @@ public class ProductsService {
 	public List<Products> getLowStockProd(){
 		return repo.findByStock();
 	}
+	
+	public Products getByName(String name) {
+		return repo.findByName(name);
+	}
 }

@@ -11,4 +11,7 @@ public interface ProductsRepo extends JpaRepository<Products, Integer>{
 	
 	@Query(value = "select p from Products p where p.quantity < p.threshold")
 	public List<Products> findByStock();
+	
+	@Query(value = "select p from Products p where p.pname = :name")
+	public Products findByName(String name);
 }

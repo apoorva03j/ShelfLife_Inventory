@@ -105,7 +105,7 @@ const BillingPage = () => {
           const gstRate = product.gstRate || 0;
           const mrp = product.mrp || 0;
           const amount = mrp * quantity;
-          const newProduct = { name: product.pname, quantity, gstRate, mrp, amount };
+          const newProduct = { pname: product.pname, quantity, gstRate, mrp, amount };
 
           setProducts([...products, newProduct]);
           setTotalItemsSold(totalItemsSold + 1);
@@ -158,6 +158,34 @@ const BillingPage = () => {
     setCashierName(user.name);
   }, [])
 
+  // const handlePrint = async () => {
+  //   const billData = {
+  //     billNo,
+  //     date,
+  //     cashierName,
+  //     cashierId,
+  //     totalItems: totalItemsSold,
+  //     grandTotal,
+  //     discountType,
+  //     discountValue,
+  //     paymentMode: paymentMode,
+  //     products
+  //   };
+
+  //   console.log(billData);
+  
+  //   // try {
+  //   //   const response = await axios.post(`http://localhost:8080/save-bill`, billData);
+  //   //   console.log(response);
+  //   //     console.log('Bill saved successfully');
+  //   //     window.print();
+      
+  //   // } catch (error) {
+  //   //   console.error('Error saving bill:', error);
+  //   // }
+  // };
+  
+
   const handlePrint = async () => {
     const billData = {
       billNo,
@@ -171,19 +199,18 @@ const BillingPage = () => {
       paymentMode: paymentMode,
       products
     };
-
     console.log(billData);
-  
-    // try {
-    //   const response = await axios.post(`http://localhost:8080/save-bill`, billData);
-    //   console.log(response);
-    //     console.log('Bill saved successfully');
-    //     window.print();
-      
-    // } catch (error) {
-    //   console.error('Error saving bill:', error);
-    // }
+
+    try {
+      const response = await axios.post(`http://localhost:8080/save-bill`, billData);
+      console.log(response);
+      console.log('Bill saved successfully');
+      window.print();
+    } catch (error) {
+      console.error('Error saving bill:', error);
+    }
   };
+
   
   
   return (
@@ -220,7 +247,7 @@ const BillingPage = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
-                    <input type="text" value={product.name} onChange={(event) => {
+                    <input type="text" value={product.pname} onChange={(event) => {
                       const newProduct = {...product, name: event.target.value };
                       const newProducts = [...products];
                       newProducts[index] = newProduct;
@@ -296,7 +323,7 @@ const BillingPage = () => {
     <label>Grand Total: ₹ {grandTotal.toFixed(2)}</label>
   </div>
 </div>
-      <button className='login-btn' onClick={handlePrint}>Print</button>
+      <button className='print-btn' onClick={handlePrint}>Print</button>
 </div>
 
 
