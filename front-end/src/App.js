@@ -23,6 +23,7 @@ import ManagerProfile from './components/ManagerProfile';
 import { UserProvider } from './components/UserContext';
 import PrivateRoute from './components/PrivateRoute';
 import { useState } from 'react';
+import EmployeeView from './components/EmployeeView';
 // import Main from './components/Main';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
               <Route path="/grievance-view" element={<GrievanceView />} />
               <Route path="/add-vendor" element={<AddVendor />} />
               <Route path="/vendor-details" element={<VendorTable />} />
+              <Route path="/employee-details" element={<EmployeeView />} />
               <Route path="/stock" element={<StockDetails />} />
               <Route path="/stock-view" element={<StockCash />} />
               <Route path="/contact" element={<ContactUs />} />

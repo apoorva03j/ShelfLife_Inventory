@@ -183,4 +183,34 @@ public class UsersController {
         return grevServ.updateGrievance(id, grievance);
     }
     
+    @GetMapping("/get-employees/{cid}")
+    public List<Users> getEmployees(@PathVariable int cid){
+    	return userService.getEmployeesByCompany(cid);
+    }
+    
+    @DeleteMapping("/delete-employee/{uid}")
+    public void deleteEmployee(@PathVariable int uid) {
+    	userService.deleteById(uid);
+    }
+    
+    @PutMapping("/update-employee/{uid}")
+    public ResponseEntity<Users> updateEmployee(@PathVariable int uid, @RequestBody Users user) {
+    	Users us = userService.getUserById(uid);
+    	if(us!=null) {
+    		us.setCompany(user.getCompany());
+    		us.setEmail(user.getEmail());
+    		us.setFname(user.getFname());
+    		us.setLname(user.getLname());
+    		us.setName(user.getName());
+    		us.setPassword(user.getPassword());
+    		us.setUser_type(user.getUser_type());
+    		userService.saveUser(us);
+    		
+    		return ResponseEntity.ok(us);
+    	}
+    	else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);    	
+        }
+    	
+    }
 }

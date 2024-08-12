@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
 import Header from './Header';
-import Panelstaff from './Panel';
+import Panelstaff from './Panelstaff';
 import Footer from './Footer1';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';

@@ -23,10 +23,11 @@ const Panel = ({ userType, isLoggedIn}) => {
       setMenuItems([
         { label: 'Dashboard', link: '/manager' }, 
         { label: 'Add Employee', link: '/add-employee'},
+        { label: 'View Employees', link: '/employee-details'},
         { label: 'Stock Details', link: '/stock' }, 
         { label: 'Add Vendor', link: '/add-vendor' },
         { label: 'Vendor Details', link: '/vendor-details' },
-        { label: 'Grievances', link: '/grievance' },
+        { label: 'Grievances', link: '/grievance-view' },
         { label: 'Profile', link: '/manager-profile'}
       ]);
     // }

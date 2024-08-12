@@ -212,19 +212,19 @@ const StockDetails = ({ userType }) => {
                     product.mrp
                   )}
                 </td>
-                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
-                {/* <td className={`table-data-cell ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : 'expiry'}`}> */}
-                  {isEditing && editProduct.pid === product.pid ? (
-                    <input
-                      type="text"
-                      name="expiry"
-                      value={editProduct.expiry || ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    product.expiry || 'N/A'
-                  )}
-                </td>
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isEditing && editProduct.pid === product.pid ? 'expiry-warning' : isExpiryWithin10Days(product.expiry) ? 'expiry-warning-rec' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
+                  <input
+                    type="text"
+                    name="expiry"
+                    value={editProduct.expiry || ''}
+                    onChange={handleInputChange}
+                  />
+                ) : (
+                  product.expiry || 'N/A'
+                )}
+              </td>
+
                 <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
                 {isEditing && editProduct.pid === product.pid ? (
                     <input
@@ -237,7 +237,7 @@ const StockDetails = ({ userType }) => {
                     product.category
                   )}
                 </td>
-                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                <td className={`table-data-cell ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''} ${isEditing && editProduct.pid === product.pid ? 'low-stock' : product.quantity < product.threshold ? 'low-stock-rec' : ''}`}>
                 {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
@@ -276,8 +276,8 @@ const StockDetails = ({ userType }) => {
                 <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
                 {isEditing && editProduct.pid === product.pid ? (
                     <>
-                      <button className="save-button" onClick={handleSaveClick}>Save</button>
-                      <button className="cancel-button" onClick={handleCancelClick}>Cancel</button>
+                      <button className="update-button" onClick={handleSaveClick}>Save</button>
+                      <button className="remove-button" onClick={handleCancelClick}>Cancel</button>
                     </>
                   ) : (
                     <>
@@ -356,8 +356,8 @@ const StockDetails = ({ userType }) => {
                   />
                 </td>
                 <td className="table-data-cell">
-                  <button className="save-button" onClick={handleSaveNewProductClick}>Save</button>
-                  <button className="cancel-button" onClick={handleCancelNewProductClick}>Cancel</button>
+                  <button className="update-button" onClick={handleSaveNewProductClick}>Save</button>
+                  <button className="remove-button" onClick={handleCancelNewProductClick}>Cancel</button>
                 </td>
               </tr>
             )}

@@ -12,12 +12,38 @@
   text-align: left;
 }
 
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes blink1 {
+  0% { opacity: 0.25; }
+  50% { opacity: 1; }
+  100% { opacity: 0.25; }
+}
+
+
+
 .expiry-warning{
   background-color: rgb(196, 14, 14);
+  color: white;
+}
+
+.expiry-warning-rec{
+  background-color: rgb(196, 14, 14);
+  color: white;
+  animation: blink 1s infinite;
 }
 
 .low-stock{
   color: rgb(255, 0, 0);
+}
+
+.low-stock-rec{
+  color: rgb(255, 0, 0);
+  animation: blink1 1s infinite;
 }
 
 
