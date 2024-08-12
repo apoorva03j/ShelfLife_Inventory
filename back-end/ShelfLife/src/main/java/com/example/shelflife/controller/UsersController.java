@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.shelflife.entity.BillProduct;
 import com.example.shelflife.entity.Bills;
 import com.example.shelflife.entity.Company;
+import com.example.shelflife.entity.Grievance;
 import com.example.shelflife.entity.Products;
 import com.example.shelflife.entity.Users;
 import com.example.shelflife.entity.Vendor;
 import com.example.shelflife.services.BillsProdService;
 import com.example.shelflife.services.BillsService;
+import com.example.shelflife.services.GrievanceService;
 import com.example.shelflife.services.ProductsService;
 import com.example.shelflife.services.UsersService;
 import com.example.shelflife.services.VendorService;
@@ -44,6 +46,9 @@ public class UsersController {
     
     @Autowired
     private BillsService billServ;
+    
+    @Autowired
+    private GrievanceService grevServ;
     
 
     @PostMapping("/login")
@@ -167,4 +172,15 @@ public class UsersController {
 
         return ResponseEntity.ok(savedBill);
     }
+    
+    @GetMapping("/grievance-view")
+    public ResponseEntity<List<Grievance>> getAllGrievances(){
+    	return ResponseEntity.ok(grevServ.getAllGrievances());
+    }
+    
+    @PutMapping("grievances/{id}")
+    public Grievance updateGrievance(@PathVariable int id, @RequestBody Grievance grievance) {
+        return grevServ.updateGrievance(id, grievance);
+    }
+    
 }

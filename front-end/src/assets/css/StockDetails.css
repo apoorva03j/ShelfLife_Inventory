@@ -12,6 +12,14 @@
   text-align: left;
 }
 
+.expiry-warning{
+  background-color: rgb(196, 14, 14);
+}
+
+.low-stock{
+  color: rgb(255, 0, 0);
+}
+
 
 .table-data-cell input{
   width: 140px;

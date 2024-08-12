@@ -2,6 +2,7 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import Panel from './components/Panel';
 import Grievance from './components/Grievance';
+import GrievanceView from './components/GrievanceView';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StockDetails from './components/StockDetails';
@@ -39,6 +40,7 @@ function App() {
               <Route path="/manager" element={<ManagerDashboard />} />
               <Route path="/manager-profile" element={<ManagerProfile />} />
               <Route path="/grievance" element={<Grievance />} />
+              <Route path="/grievance-view" element={<GrievanceView />} />
               <Route path="/add-vendor" element={<AddVendor />} />
               <Route path="/vendor-details" element={<VendorTable />} />
               <Route path="/stock" element={<StockDetails />} />

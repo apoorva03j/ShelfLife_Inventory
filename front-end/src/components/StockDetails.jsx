@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/css/StockDetails.css';
 import Header from './Header';
-// import Panel from './Panel';
 import Footer from './Footer';
 
 const StockDetails = ({ userType }) => {
@@ -20,6 +19,7 @@ const StockDetails = ({ userType }) => {
     vendorId: '',
     threshold: '',
   });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     const fetchStockData = async () => {
@@ -48,7 +48,6 @@ const StockDetails = ({ userType }) => {
   const handleSaveClick = async () => {
     try {
       const resp = await axios.put(`http://localhost:8080/update-product/${editProduct.pid}`, editProduct);
-      // Update the product in the state
       setStockData((prevData) => ({
         products: prevData.products.map((product) =>
           product.pid === editProduct.pid ? editProduct : product
@@ -90,7 +89,6 @@ const StockDetails = ({ userType }) => {
   const handleSaveNewProductClick = async () => {
     try {
       const resp = await axios.post('http://localhost:8080/add-product', newProduct);
-      // Add the new product to the state
       setStockData((prevData) => ({
         products: [...prevData.products, resp.data],
       }));
@@ -125,10 +123,35 @@ const StockDetails = ({ userType }) => {
     });
   };
 
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedProducts = [...stockData.products].sort((a, b) => {
+    if (a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === 'asc' ? -1 : 1;
+    }
+    if (a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const isExpiryWithin10Days = (expiryDate) => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const diffInTime = expiry.getTime() - today.getTime();
+    const diffInDays = diffInTime / (1000 * 3600 * 24);
+    return diffInDays <= 10;
+  };
+
   return (
     <>
       <Header />
-      {/* <Panel userType={userType}/> */}
       <header className='header-table-st'>
         <h1>Stock Details</h1>
       </header>
@@ -136,23 +159,24 @@ const StockDetails = ({ userType }) => {
         <table className="product-table-st">
           <thead>
             <tr>
-              <th className="table-header-cell">Product ID</th>
-              <th className="table-header-cell">Product Name</th>
-              <th className="table-header-cell">Unit Price</th>
-              <th className="table-header-cell">MRP</th>
-              <th className="table-header-cell">Expiry</th>
-              <th className="table-header-cell">Category</th>
-              <th className="table-header-cell">Stock Quantity</th>
-              <th className="table-header-cell">Threshold</th>
-              <th className="table-header-cell">Vendor ID</th>
+              <th className="table-header-cell" onClick={() => handleSort('pid')}>Product ID</th>
+              <th className="table-header-cell" onClick={() => handleSort('pname')}>Product Name</th>
+              <th className="table-header-cell" onClick={() => handleSort('unitPrice')}>Unit Price</th>
+              <th className="table-header-cell" onClick={() => handleSort('mrp')}>MRP</th>
+              <th className="table-header-cell" onClick={() => handleSort('expiry')}>Expiry</th>
+              <th className="table-header-cell" onClick={() => handleSort('category')}>Category</th>
+              <th className="table-header-cell" onClick={() => handleSort('quantity')}>Stock Quantity</th>
+              <th className="table-header-cell" onClick={() => handleSort('threshold')}>Threshold</th>
+              <th className="table-header-cell" onClick={() => handleSort('vendorId')}>Vendor ID</th>
               <th className="table-header-cell">Action</th>
             </tr>
           </thead>
           <tbody>
-            {stockData.products.map((product, index) => (
+            {sortedProducts.map((product, index) => (
               <tr key={index} className={index % 2 === 0 ? "alternate-row" : ""}>
-                <td className="table-data-cell">{product.pid}</td>
-                <td className="table-data-cell">
+              <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+              {product.pid}</td>
+              <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
                   {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="text"
@@ -164,8 +188,8 @@ const StockDetails = ({ userType }) => {
                     product.pname
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
                       name="unitPrice"
@@ -176,8 +200,8 @@ const StockDetails = ({ userType }) => {
                     product.unitPrice
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
                       name="mrp"
@@ -188,7 +212,8 @@ const StockDetails = ({ userType }) => {
                     product.mrp
                   )}
                 </td>
-                <td className="table-data-cell">
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {/* <td className={`table-data-cell ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : 'expiry'}`}> */}
                   {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="text"
@@ -200,8 +225,8 @@ const StockDetails = ({ userType }) => {
                     product.expiry || 'N/A'
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="text"
                       name="category"
@@ -212,8 +237,8 @@ const StockDetails = ({ userType }) => {
                     product.category
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
                       name="quantity"
@@ -224,8 +249,8 @@ const StockDetails = ({ userType }) => {
                     product.quantity
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
                       name="threshold"
@@ -236,8 +261,8 @@ const StockDetails = ({ userType }) => {
                     product.threshold
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <input
                       type="number"
                       name="vendorId"
@@ -248,8 +273,8 @@ const StockDetails = ({ userType }) => {
                     product.vendorId
                   )}
                 </td>
-                <td className="table-data-cell">
-                  {isEditing && editProduct.pid === product.pid ? (
+                <td className={`table-data-cell ${product.quantity < product.threshold ? 'low-stock' : ''} ${isExpiryWithin10Days(product.expiry) ? 'expiry-warning' : ''}`}>
+                {isEditing && editProduct.pid === product.pid ? (
                     <>
                       <button className="save-button" onClick={handleSaveClick}>Save</button>
                       <button className="cancel-button" onClick={handleCancelClick}>Cancel</button>
@@ -345,6 +370,7 @@ const StockDetails = ({ userType }) => {
       <Footer />
     </>
   );
-};
+
+}
 
 export default StockDetails;
