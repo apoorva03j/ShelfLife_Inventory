@@ -24,6 +24,7 @@ import { UserProvider } from './components/UserContext';
 import PrivateRoute from './components/PrivateRoute';
 import { useState } from 'react';
 import EmployeeView from './components/EmployeeView';
+import BillHistory from './components/BillHistory';
 // import Main from './components/Main';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
               <Route path="/stock-view" element={<StockCash />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/billing" element={<BillingPage />} />
+              <Route path="/billing-history" element={<BillHistory />} />
               <Route path="/add-employee" element={<EmployeeDetail />} />
               <Route path="/cashier" element={<CashierDashboard />} />
               <Route path="/staff" element={<StaffDashboard />} />

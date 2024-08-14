@@ -9,32 +9,32 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
 const Dashboard = () => {
-  const [salesData] = useState({
-    toBeDelivered: [
-      { product: 'Product A', quantity: 100 },
-      { product: 'Product B', quantity: 150 },
-    ],
-    bestSellingProducts: [
-      { category: 'Fruits', product: 'Apple', quantity: 500 },
-      { category: 'Vegetables', product: 'Carrot', quantity: 400 },
-    ],
-    monthlySales: [10000, 12000, 15000, 11000, 9000, 13000, 14000, 16000, 18000, 20000, 22000, 25000],
-    yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
-    productsAboutToExpire: [
-      { product: 'Product E', expiryDate: '2024-12-31' },
-    ],
-    salesByCategory: [
-      { label: 'Fruits', value: 30 },
-      { label: 'Vegetables', value: 25 },
-      { label: 'Dairy', value: 20 },
-      { label: 'Grains', value: 15 },
-      { label: 'Others', value: 10 },
-    ],
-  });
+  // const [salesData] = useState({
+  //   toBeDelivered: [
+  //     { product: 'Product A', quantity: 100 },
+  //     { product: 'Product B', quantity: 150 },
+  //   ],
+  //   bestSellingProducts: [
+  //     { category: 'Fruits', product: 'Apple', quantity: 500 },
+  //     { category: 'Vegetables', product: 'Carrot', quantity: 400 },
+  //   ],
+  //   monthlySales: [10000, 12000, 15000, 11000, 9000, 13000, 14000, 16000, 18000, 20000, 22000, 25000],
+  //   yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
+  //   productsAboutToExpire: [
+  //     { product: 'Product E', expiryDate: '2024-12-31' },
+  //   ],
+  //   salesByCategory: [
+  //     { label: 'Fruits', value: 30 },
+  //     { label: 'Vegetables', value: 25 },
+  //     { label: 'Dairy', value: 20 },
+  //     { label: 'Grains', value: 15 },
+  //     { label: 'Others', value: 10 },
+  //   ],
+  // });
 
-  const [financialData] = useState({
-    yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
-  });
+  // const [financialData] = useState({
+  //   yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
+  // });
 
   const [employeeData, setEmployeeData] = useState({
     attendance: [
@@ -46,6 +46,74 @@ const Dashboard = () => {
       { name: 'Employee B', role: 'Cashier' },
     ],
   });
+  const [salesData, setSalesData] = useState({
+    monthlySales: [],
+    yearlySales: [],
+    salesByCategory: [],
+  });
+  const [financialData, setFinancialData] = useState({});
+  // const [employeeData, setEmployeeData] = useState({});
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+      fetchSalesData();
+      // fetchFinancialData();
+      // fetchEmployeeData();
+  }, [user]);
+
+  const fetchSalesData = async () => {
+    try {
+      const currentYear = new Date().getFullYear();
+      const monthlyResponse = await axios.get(`http://localhost:8080/sales/monthly/${currentYear}`);
+      const yearlyResponse = await axios.get(`http://localhost:8080/sales/yearly`);
+      const byCategory = await axios.get(`http://localhost:8080/sales/by-category`);
+
+
+      console.log(monthlyResponse);
+      console.log(yearlyResponse);
+      console.log(byCategory);
+      setSalesData({
+        monthlySales: monthlyResponse.data,
+        yearlySales: yearlyResponse.data,
+        salesByCategory: byCategory.data,
+      });
+
+      setFinancialData({
+        yearlySales: monthlyResponse.data,
+      });
+
+      console.log(financialData);
+
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+    }
+  };
+
+  // const fetchFinancialData = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8080/api/financial/yearly-sales');
+  //     setFinancialData({
+  //       yearlySales: response.data,
+  //       // Fetch other financial-related data as needed
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching financial data:', error);
+  //   }
+  // };
+
+  // const fetchEmployeeData = async () => {
+  //   try {
+  //     const attendanceResponse = await axios.get('http://localhost:8080/api/employees/attendance');
+  //     const employeesResponse = await axios.get('http://localhost:8080/api/employees');
+  //     setEmployeeData({
+  //       attendance: attendanceResponse.data,
+  //       employees: employeesResponse.data,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching employee data:', error);
+  //   }
+  // };
 
   const [lowStockData, setLowStockData] = useState({
     pname: [],
@@ -53,8 +121,6 @@ const Dashboard = () => {
   });
 
   const employeeColors = ['#63b3d0a2', '#d063a1a2'];
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user.id === null) {
@@ -64,7 +130,6 @@ const Dashboard = () => {
       fetchLowStockData();
     }
   }, [user]);
-
 
 
   const fetchLowStockData = async () => {
@@ -157,6 +222,10 @@ const Dashboard = () => {
           </div>
         </div>
 
+
+
+        
+
         <div className="section-d">
           <h2>Low Stock Products</h2>
           <div className="chart-container">
@@ -180,7 +249,7 @@ const Dashboard = () => {
           <h2>Financial Overview</h2>
           <div className="chart-container">
             <Line data={{
-              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
               datasets: [
                 {
                   label: 'Sales',
@@ -217,3 +286,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

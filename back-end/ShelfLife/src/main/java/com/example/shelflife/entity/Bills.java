@@ -2,6 +2,7 @@ package com.example.shelflife.entity;
 
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -13,7 +14,7 @@ public class Bills {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String date;
+    private Date date;
     private String cashierName;
     private String cashierId;
     private int totalItems;
@@ -34,11 +35,11 @@ public class Bills {
 		this.id = id;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

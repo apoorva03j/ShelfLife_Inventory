@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import '../assets/css/BillingPage.css';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const BillingPage = () => {
   const [billNo, setBillNo] = useState(Math.floor(100000 + Math.random() * 900000)); // auto-generated bill no
@@ -184,6 +185,13 @@ const BillingPage = () => {
   //   //   console.error('Error saving bill:', error);
   //   // }
   // };
+
+  const navigate = useNavigate();
+
+  const handleView = () => {
+    navigate("/billing-history");
+
+  };
   
 
   const handlePrint = async () => {
@@ -324,6 +332,7 @@ const BillingPage = () => {
   </div>
 </div>
       <button className='print-btn' onClick={handlePrint}>Print</button>
+      <button className='print-btn' onClick={handleView}>View History</button>
 </div>
 
 

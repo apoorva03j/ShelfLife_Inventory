@@ -1,6 +1,8 @@
 package com.example.shelflife.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.shelflife.entity.BillProduct;
+import com.example.shelflife.entity.BillProjection;
 import com.example.shelflife.entity.Bills;
 import com.example.shelflife.entity.Company;
 import com.example.shelflife.entity.Grievance;
@@ -213,4 +217,31 @@ public class UsersController {
         }
     	
     }
+    
+    @GetMapping("/sales/monthly/{year}")
+    public List<BigDecimal> getMonthlySales(@PathVariable int year) {
+        return billServ.findMonthly(year);
+    }
+
+    @GetMapping("/sales/yearly")
+    public List<BigDecimal> getYearlySales() {
+        return billServ.findYearly();
+    }
+    
+    @GetMapping("/sales/by-category")
+    public ResponseEntity<List<Map<String, Object>>> getSalesByCategory() {
+        List<Map<String, Object>> salesByCategory = billProdServ.getSalesByCategory();
+        return new ResponseEntity<>(salesByCategory, HttpStatus.OK);
+    }
+    
+    @GetMapping("/get-bill-details")
+    public ResponseEntity<List<BillProjection>> getAllBills(){
+    	return ResponseEntity.ok(billServ.getAll());
+    }
+    
+    @PostMapping("/grievance-submit")
+    public ResponseEntity<Grievance> submitGrievance(@RequestBody Grievance g){
+    	return ResponseEntity.ok(grevServ.submit(g));
+    }
+    
 }

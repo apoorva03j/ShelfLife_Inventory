@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Chart from 'chart.js/auto';
 import { Line, Pie, Bar, Radar } from 'react-chartjs-2';
 import '../assets/css/ManagerDashboard.css';
@@ -7,62 +7,75 @@ import Panelstaff from './Panelstaff';
 import Footer from './Footer1';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import axios from 'axios';
 
 
 
 const StaffDashboard = ({userType}) => {
 
-
-    const [salesData, setSalesData] = useState({
-        toBeDelivered: [
-          { product: 'Product A', quantity: 100 },
-          { product: 'Product B', quantity: 150 },
-        ],
-        bestSellingProducts: [
-          { category: 'Fruits', product: 'Apple', quantity: 500 },
-          { category: 'Vegetables', product: 'Carrot', quantity: 400 },
-        ],
-        lowStockItems: [
-          { product: 'Product A', quantity: 5 },
-          { product: 'Product B', quantity: 20 },
-          { product: 'Product C', quantity: 10 },
-          { product: 'Product D', quantity: 15 },
-        ],
-        monthlySales: [10000, 12000, 15000, 11000, 9000, 13000, 14000, 16000, 18000, 20000, 22000, 25000],
-        yearlySales: [100000, 120000, 150000, 180000, 210000, 240000],
-        productsAboutToExpire: [
-          { product: 'Product E', expiryDate: '2024-12-31' },
-        ],
-        salesByCategory: [
-          { label: 'Fruits', value: 30 },
-          { label: 'Vegetables', value: 25 },
-          { label: 'Dairy', value: 20 },
-          { label: 'Grains', value: 15 },
-          { label: 'Others', value: 10 },
-        ],
-      });
     
       const [attendanceData, setAttendanceData] = useState({
         yearlySales: [900000, 850000, 750000, 900000, 1000000, 700000],
       });
+
+      const [salesData, setSalesData] = useState({
+        monthlySales: [],
+        yearlySales: [],
+        salesByCategory: [],
+      });
+      const { user } = useContext(UserContext);
+      const navigate = useNavigate();
     
-      const [employeeData, setEmployeeData] = useState({
-        attendance: [
-          { employee: 'Employee A', data: [85, 90, 88, 92, 87, 91, 89, 93, 86, 94, 85, 92] },
-          { employee: 'Employee B', data: [90, 85, 92, 88, 91, 86, 93, 87, 90, 89, 92, 85] }
-        ],
-        employees: [
-          { name: 'Employee A', role: 'Manager' },
-          { name: 'Employee B', role: 'Cashier' },
-        ],
-      });
-
-      const employeeColors = ['#63b3d0a2', '#d063a1a2'];
-
+      useEffect(() => {
+          fetchSalesData();
+          fetchLowStockData();
+      }, [user]);
+    
+      const fetchSalesData = async () => {
+        try {
+          const currentYear = new Date().getFullYear();
+          const monthlyResponse = await axios.get(`http://localhost:8080/sales/monthly/${currentYear}`);
+          const yearlyResponse = await axios.get(`http://localhost:8080/sales/yearly`);
+          const byCategory = await axios.get(`http://localhost:8080/sales/by-category`);
+    
+    
+          console.log(monthlyResponse);
+          console.log(yearlyResponse);
+          console.log(byCategory);
+          setSalesData({
+            monthlySales: monthlyResponse.data,
+            yearlySales: yearlyResponse.data,
+            salesByCategory: byCategory.data,
+          });
+    
+    
+        } catch (error) {
+          console.error('Error fetching sales data:', error);
+        }
+      };
+    
+    
       const [lowStockData, setLowStockData] = useState({
-        products: ['Product A', 'Product B', 'Product C', 'Product D'],
-        stockLevels: [5, 20, 10, 15]
+        pname: [],
+        stockLevels: [],
       });
+    
+    
+    
+      const fetchLowStockData = async () => {
+        try {
+          const response = await axios.get('http://localhost:8080/low-stock');
+          const resp = response.data;
+          setLowStockData({
+            products: resp.map(item => item.pname),
+            stockLevels: resp.map(item => item.quantity)
+          });
+          console.log(response);
+        } catch (error) {
+          console.error('Error fetching low stock data:', error);
+        }
+      };
 
   return (
 
@@ -86,7 +99,7 @@ const StaffDashboard = ({userType}) => {
             </div>
         </div>
         <div className="section-d-staff">
-            <h2>Units About to Expired</h2>
+            <h2>Units About to Expire</h2>
             <div className='sub-section-d'>
                 <h4>4</h4>
             </div>

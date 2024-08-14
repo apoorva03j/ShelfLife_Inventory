@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import '../assets/css/Grievance.css';
 import Header from './Header';
 import Panel from './Panel';
+import { UserContext } from './UserContext';
 
-function Grievance({userType}) {
+function Grievance() {
+  const {user} = useContext(UserContext);
   const [formData, setFormData] = useState({
-    cashierName: '',
-    grievanceSubject: '',
-    grievanceText: '',
+    uId: user.uid,
+    date: new Date().toISOString().split('T')[0],
+    userName: user.name,
+    subject: '',
+    text: '',
   });
 
   const handleChange = (e) => {
@@ -20,15 +24,22 @@ function Grievance({userType}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(formData);
-
-    setFormData({
-      cashierName: '',
-      grievanceSubject: '',
-      grievanceText: '',
-    });
+  
+    try {
+      console.log(formData);
+      const response = await axios.post('http://localhost:8080/grievance-submit', formData);
+      console.log('Grievance submitted:', response.data);
+  
+      setFormData({
+        userName: '',
+        subject: '',
+        text: '',
+      });
+    } catch (error) {
+      console.error('Error submitting grievance:', error);
+    }
   };
+  
 
   return (
     <>
@@ -39,8 +50,8 @@ function Grievance({userType}) {
       <input
         type="text"
         id="cashierName"
-        name="cashierName"
-        value={formData.cashierName}
+        name="userName"
+        value={formData.userName}
         onChange={handleChange}
         placeholder="Enter Name"
         required
@@ -50,8 +61,8 @@ function Grievance({userType}) {
       <input
         type="text"
         id="grievanceSubject"
-        name="grievanceSubject"
-        value={formData.grievanceSubject}
+        name="subject"
+        value={formData.subject}
         onChange={handleChange}
         placeholder="Enter Subject"
         required
@@ -60,8 +71,8 @@ function Grievance({userType}) {
 
       <textarea
         id="grievanceText"
-        name="grievanceText"
-        value={formData.grievanceText}
+        name="text"
+        value={formData.text}
         onChange={handleChange}
         placeholder="Your grievance here"
         required

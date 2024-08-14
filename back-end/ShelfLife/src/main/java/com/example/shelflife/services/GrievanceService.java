@@ -27,5 +27,9 @@ public class GrievanceService {
         }
         return null;
     }
+    
+    public Grievance submit(Grievance g) {
+    	return repo.save(g);
+    }
 
 }
